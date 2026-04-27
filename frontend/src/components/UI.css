@@ -721,6 +721,52 @@
   border-radius: 3px;
 }
 
+/* 긴장도 시스템 */
+.log-entry.nervous .log-text,
+.answer-box.nervous .answer-text {
+  animation: nervousTremor 0.15s infinite;
+  color: var(--text-primary);
+}
+
+@keyframes nervousTremor {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px) translateY(0.5px); }
+  50% { transform: translateX(1px) translateY(-0.5px); }
+  75% { transform: translateX(-0.5px) translateY(1px); }
+}
+
+.nervous-indicator {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  font-size: 1.1em;
+  animation: nervousPulse 1.5s ease-in-out infinite;
+  cursor: help;
+}
+
+@keyframes nervousPulse {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+.answer-box.nervous {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 107, 107, 0.08) 100%);
+  border-left-color: var(--primary-color);
+}
+
+.answer-box.nervous .answer-label {
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .close-btn {
   width: calc(100% - 50px);
   margin: 20px 25px;
@@ -881,6 +927,94 @@
 .stat-item.warning {
   color: var(--accent-color);
   font-weight: 600;
+}
+
+/* 추리 요약서 */
+.case-summary {
+  margin: 25px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  animation: summarySlideIn 0.6s ease;
+}
+
+@keyframes summarySlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  font-size: 1.1em;
+  color: var(--accent-color);
+  font-weight: 700;
+}
+
+.summary-icon {
+  font-size: 1.3em;
+}
+
+.summary-section {
+  margin: 20px 0;
+}
+
+.summary-section h4 {
+  margin: 0 0 12px 0;
+  color: var(--secondary-color);
+  font-size: 1em;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  color: var(--text-primary);
+  font-size: 0.9em;
+  line-height: 1.6;
+  border-left: 2px solid rgba(78, 205, 196, 0.3);
+  padding-left: 15px;
+  margin-left: 5px;
+}
+
+.summary-bullet {
+  color: var(--accent-color);
+  font-weight: 700;
+  min-width: 20px;
+}
+
+.summary-item strong {
+  color: var(--accent-color);
+}
+
+.summary-verdict {
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 107, 107, 0.05) 100%);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 0.95em;
+  line-height: 1.7;
+}
+
+.summary-verdict strong {
+  color: var(--primary-color);
+  font-weight: 700;
 }
 
 /* 범인 자백 박스 */

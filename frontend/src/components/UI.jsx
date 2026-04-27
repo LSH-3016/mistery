@@ -6,12 +6,24 @@ function InterviewModal({ suspect, onClose }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [askedQuestions, setAskedQuestions] = useState([])
   const [conversationLog, setConversationLog] = useState([])
+  const { collectedEvidence, scenario } = useGameStore()
 
   const questions = [
     { id: 'q1', text: suspect.interview.q1, answer: suspect.interview.a1 },
     { id: 'q2', text: suspect.interview.q2, answer: suspect.interview.a2 },
     { id: 'q3', text: suspect.interview.q3, answer: suspect.interview.a3 },
   ]
+
+  // 범인인지 확인
+  const isCulprit = suspect.is_culprit
+
+  // 결정적 증거를 수집했는지 확인
+  const hasDecisiveEvidence = scenario.evidence
+    .filter(e => e.is_decisive && collectedEvidence.includes(e.id))
+    .length > 0
+
+  // 긴장도 계산 (범인이고 결정적 증거가 있으면 긴장)
+  const isNervous = isCulprit && hasDecisiveEvidence
 
   const handleAskQuestion = (question) => {
     setSelectedQuestion(question)
@@ -21,7 +33,7 @@ function InterviewModal({ suspect, onClose }) {
       setConversationLog([
         ...conversationLog,
         { type: 'question', text: question.text },
-        { type: 'answer', text: question.answer }
+        { type: 'answer', text: question.answer, nervous: isNervous }
       ])
     }
   }
@@ -74,11 +86,16 @@ function InterviewModal({ suspect, onClose }) {
               <h4>📝 대화 기록</h4>
               <div className="log-content">
                 {conversationLog.map((entry, index) => (
-                  <div key={index} className={`log-entry ${entry.type}`}>
+                  <div key={index} className={`log-entry ${entry.type} ${entry.nervous ? 'nervous' : ''}`}>
                     <span className="log-label">
                       {entry.type === 'question' ? '질문:' : '답변:'}
                     </span>
                     <span className="log-text">{entry.text}</span>
+                    {entry.nervous && (
+                      <span className="nervous-indicator" title="용의자가 긴장하고 있습니다">
+                        💦
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -86,9 +103,16 @@ function InterviewModal({ suspect, onClose }) {
           )}
 
           {selectedQuestion && !conversationLog.length && (
-            <div className="answer-box">
-              <div className="answer-label">답변:</div>
-              <div className="answer-text">"{selectedQuestion.answer}"</div>
+            <div className={`answer-box ${isNervous ? 'nervous' : ''}`}>
+              <div className="answer-label">
+                답변:
+                {isNervous && (
+                  <span className="nervous-indicator" title="용의자가 긴장하고 있습니다">
+                    💦 긴장함
+                  </span>
+                )}
+              </div>
+              <div className="answer-text">{selectedQuestion.answer}</div>
             </div>
           )}
         </div>
@@ -336,6 +360,14 @@ export default function UI() {
               <div className="result-content">
                 <p className="success-message">축하합니다! 완벽한 추리였습니다!</p>
                 
+                {/* 점수 및 등급 */}
+                <div className="score-display">
+                  <div className={`grade-badge grade-${selectedModal.data.grade}`}>
+                    {selectedModal.data.grade}
+                  </div>
+                  <div className="score-number">{selectedModal.data.score}점</div>
+                </div>
+                
                 {/* 범인 자백 연출 */}
                 <div className="confession-box">
                   <div className="confession-header">
@@ -350,6 +382,53 @@ export default function UI() {
                     {selectedModal.data.solution.motive === '비밀' && ' 비밀이 밝혀질까 두려웠습니다...'}
                     더 이상 숨길 수 없군요."
                   </p>
+                </div>
+
+                {/* 추리 요약서 */}
+                <div className="case-summary">
+                  <div className="summary-header">
+                    <span className="summary-icon">📋</span>
+                    <strong>사건 해결 보고서</strong>
+                  </div>
+                  
+                  <div className="summary-section">
+                    <h4>🔍 결정적 증거</h4>
+                    {scenario.evidence
+                      .filter(e => collectedEvidence.includes(e.id) && e.is_decisive)
+                      .map((evidence, idx) => (
+                        <div key={idx} className="summary-item">
+                          <span className="summary-bullet">▸</span>
+                          <strong>{evidence.name}</strong>: {evidence.location}에서 발견. 
+                          이는 {selectedModal.data.solution.culprit}만이 접근할 수 있었던 증거입니다.
+                        </div>
+                      ))}
+                  </div>
+
+                  <div className="summary-section">
+                    <h4>💡 추리 과정</h4>
+                    <div className="summary-item">
+                      <span className="summary-bullet">1.</span>
+                      당신은 총 {selectedModal.data.collectedCount}개의 증거를 수집했습니다.
+                    </div>
+                    <div className="summary-item">
+                      <span className="summary-bullet">2.</span>
+                      {selectedModal.data.solution.culprit}의 알리바이에 모순을 발견했습니다.
+                    </div>
+                    <div className="summary-item">
+                      <span className="summary-bullet">3.</span>
+                      결정적 증거들이 모두 {selectedModal.data.solution.culprit}을(를) 가리켰습니다.
+                    </div>
+                  </div>
+
+                  <div className="summary-section">
+                    <h4>⚖️ 판결</h4>
+                    <div className="summary-verdict">
+                      <strong>{selectedModal.data.solution.culprit}</strong>은(는) 
+                      <strong> {selectedModal.data.solution.motive}</strong> 동기로 
+                      <strong> {scenario.victim.name}</strong>을(를) 살해한 혐의로 
+                      체포되었습니다.
+                    </div>
+                  </div>
                 </div>
 
                 <div className="solution-details">
@@ -371,10 +450,24 @@ export default function UI() {
                     <span className="stat-icon">🔍</span>
                     <span>수집한 증거: {selectedModal.data.collectedCount}/{selectedModal.data.totalCount}개</span>
                   </div>
-                  <div className="stat-item success">
-                    <span className="stat-icon">⭐</span>
-                    <span>당신은 훌륭한 탐정입니다!</span>
-                  </div>
+                  {selectedModal.data.grade === 'S' && (
+                    <div className="stat-item success">
+                      <span className="stat-icon">👑</span>
+                      <span>완벽한 추리! 당신은 명탐정입니다!</span>
+                    </div>
+                  )}
+                  {selectedModal.data.grade === 'A' && (
+                    <div className="stat-item success">
+                      <span className="stat-icon">⭐</span>
+                      <span>훌륭한 추리력입니다!</span>
+                    </div>
+                  )}
+                  {selectedModal.data.grade === 'B' && (
+                    <div className="stat-item success">
+                      <span className="stat-icon">✨</span>
+                      <span>좋은 추리였습니다!</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
