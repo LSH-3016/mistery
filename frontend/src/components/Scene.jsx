@@ -131,26 +131,71 @@ export default function Scene() {
         decay={2}
       />
       
-      {/* Fake GI - 바닥 반사광 (바닥에서 위로 빛 반사) */}
+      {/* Zone Lighting - 영역별 조명 강화 */}
+      {/* 왼쪽 영역 조명 */}
+      <spotLight
+        position={[-5, 4, -3]}
+        angle={0.5}
+        penumbra={0.7}
+        intensity={1.2}
+        color={config.accent1.color}
+        target-position={[-5, 0, -3]}
+      />
+      
+      {/* 오른쪽 영역 조명 */}
+      <spotLight
+        position={[5, 4, -3]}
+        angle={0.5}
+        penumbra={0.7}
+        intensity={1.2}
+        color={config.accent2.color}
+        target-position={[5, 0, -3]}
+      />
+      
+      {/* 중앙 책상 집중 조명 */}
+      <spotLight
+        position={[0, 3.5, -3]}
+        angle={0.3}
+        penumbra={0.8}
+        intensity={1.5}
+        color="#ffffff"
+        target-position={[0, 0.8, -5]}
+      />
+      
+      {/* Fake GI - 바닥 반사광 (바닥에서 위로 빛 반사) - 강화 */}
       <pointLight 
-        position={[0, 0.1, -4]} 
-        intensity={0.3}
+        position={[0, 0.05, -4]} 
+        intensity={0.8}
         color={config.fog}
+        distance={8}
+        decay={2}
+      />
+      <pointLight 
+        position={[-3, 0.05, -2]} 
+        intensity={0.6}
+        color={config.fog}
+        distance={6}
+        decay={2}
+      />
+      <pointLight 
+        position={[3, 0.05, -5]} 
+        intensity={0.6}
+        color={config.fog}
+        distance={6}
+        decay={2}
+      />
+      <pointLight 
+        position={[-5, 0.05, -5]} 
+        intensity={0.5}
+        color={config.accent1.color}
         distance={5}
         decay={2}
       />
       <pointLight 
-        position={[-3, 0.1, -2]} 
-        intensity={0.25}
-        color={config.fog}
-        distance={4}
-        decay={2}
-      />
-      <pointLight 
-        position={[3, 0.1, -5]} 
-        intensity={0.25}
-        color={config.fog}
-        distance={4}
+        position={[5, 0.05, -3]} 
+        intensity={0.5}
+        color={config.accent2.color}
+        distance={5}
         decay={2}
       />
       

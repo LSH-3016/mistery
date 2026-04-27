@@ -24,10 +24,13 @@ export default function Furniture() {
 
 // 갤러리 가구 (360도 공간 활용)
 function GalleryFurniture() {
+  // 미세한 랜덤 회전으로 자연스러움 추가
+  const randomRotation = () => [0, Math.random() * 0.08 - 0.04, 0]
+  
   return (
     <group>
       {/* 중앙 관장 책상 */}
-      <RoundedBox args={[2.5, 0.08, 1.2]} position={[0, 0.8, -5]} radius={0.01} smoothness={4} castShadow receiveShadow>
+      <RoundedBox args={[2.5, 0.08, 1.2]} position={[0, 0.8, -5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#d4a574" roughness={0.6} metalness={0.4} />
       </RoundedBox>
       
@@ -39,35 +42,35 @@ function GalleryFurniture() {
       ))}
 
       {/* 중앙 의자 */}
-      <RoundedBox args={[0.6, 0.1, 0.6]} position={[0, 0.5, -3.5]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[0.6, 0.1, 0.6]} position={[0, 0.5, -3.5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#8b6f47" />
       </RoundedBox>
-      <RoundedBox args={[0.6, 0.8, 0.1]} position={[0, 0.9, -3.8]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[0.6, 0.8, 0.1]} position={[0, 0.9, -3.8]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#8b6f47" />
       </RoundedBox>
 
       {/* 왼쪽 구역 - 전시 공간 */}
       {/* 전시 받침대 1 */}
-      <mesh position={[-5, 0.6, -5]} castShadow>
+      <mesh position={[-5, 0.6, -5]} rotation={randomRotation()} castShadow>
         <cylinderGeometry args={[0.3, 0.3, 1.2, 8]} />
         <meshStandardMaterial color="#f5e6d3" />
       </mesh>
-      <RoundedBox args={[0.4, 0.05, 0.4]} position={[-5, 1.25, -5]} radius={0.005} smoothness={4} castShadow>
+      <RoundedBox args={[0.4, 0.05, 0.4]} position={[-5, 1.25, -5]} rotation={randomRotation()} radius={0.005} smoothness={4} castShadow>
         <meshStandardMaterial color="#d4a574" />
       </RoundedBox>
 
       {/* 전시 받침대 2 */}
-      <mesh position={[-5, 0.6, -1]} castShadow>
+      <mesh position={[-5, 0.6, -1]} rotation={randomRotation()} castShadow>
         <cylinderGeometry args={[0.3, 0.3, 1.2, 8]} />
         <meshStandardMaterial color="#f5e6d3" />
       </mesh>
-      <RoundedBox args={[0.4, 0.05, 0.4]} position={[-5, 1.25, -1]} radius={0.005} smoothness={4} castShadow>
+      <RoundedBox args={[0.4, 0.05, 0.4]} position={[-5, 1.25, -1]} rotation={randomRotation()} radius={0.005} smoothness={4} castShadow>
         <meshStandardMaterial color="#d4a574" />
       </RoundedBox>
 
       {/* 오른쪽 구역 - 작업 공간 */}
       {/* 작업 테이블 */}
-      <RoundedBox args={[1.5, 0.08, 1]} position={[5, 0.8, -5]} radius={0.01} smoothness={4} castShadow receiveShadow>
+      <RoundedBox args={[1.5, 0.08, 1]} position={[5, 0.8, -5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#c19a6b" roughness={0.7} metalness={0.3} />
       </RoundedBox>
       {[[-0.65, 0.4, -5.4], [0.65, 0.4, -5.4], [-0.65, 0.4, -4.6], [0.65, 0.4, -4.6]].map((pos, i) => (
@@ -77,12 +80,12 @@ function GalleryFurniture() {
       ))}
 
       {/* 오른쪽 의자 */}
-      <RoundedBox args={[0.5, 0.1, 0.5]} position={[5, 0.5, -3.5]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[0.5, 0.1, 0.5]} position={[5, 0.5, -3.5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#8b6f47" />
       </RoundedBox>
 
       {/* 뒷벽 - 그림 액자들 */}
-      <RoundedBox args={[1.5, 2, 0.05]} position={[-3, 2, -7.4]} radius={0.008} smoothness={4} castShadow>
+      <RoundedBox args={[1.5, 2, 0.05]} position={[-3, 2, -7.4]} rotation={randomRotation()} radius={0.008} smoothness={4} castShadow>
         <meshStandardMaterial color="#f5e6d3" />
       </RoundedBox>
       <mesh position={[-3, 2, -7.35]}>
@@ -133,10 +136,12 @@ function GalleryFurniture() {
 
 // 연구실 가구 (360도 공간 활용)
 function LabFurniture() {
+  const randomRotation = () => [0, Math.random() * 0.08 - 0.04, 0]
+  
   return (
     <group>
       {/* 중앙 실험대 */}
-      <mesh position={[0, 0.9, -5]} castShadow receiveShadow>
+      <mesh position={[0, 0.9, -5]} rotation={randomRotation()} castShadow receiveShadow>
         <boxGeometry args={[3, 0.05, 1.5]} />
         <meshStandardMaterial color="#e0e0e0" roughness={0.3} metalness={0.7} />
       </mesh>
@@ -150,7 +155,7 @@ function LabFurniture() {
       ))}
 
       {/* 왼쪽 구역 - 실험 장비 캐비닛 */}
-      <mesh position={[-5.5, 1.5, -5]} castShadow>
+      <mesh position={[-5.5, 1.5, -5]} rotation={randomRotation()} castShadow>
         <boxGeometry args={[2, 3, 0.5]} />
         <meshStandardMaterial color="#d0d0d0" roughness={0.4} metalness={0.6} />
       </mesh>
@@ -166,7 +171,7 @@ function LabFurniture() {
       </mesh>
 
       {/* 왼쪽 작업대 */}
-      <mesh position={[-5.5, 0.9, -1.5]} castShadow receiveShadow>
+      <mesh position={[-5.5, 0.9, -1.5]} rotation={randomRotation()} castShadow receiveShadow>
         <boxGeometry args={[1.5, 0.05, 1.2]} />
         <meshStandardMaterial color="#e0e0e0" roughness={0.3} metalness={0.7} />
       </mesh>
@@ -178,13 +183,13 @@ function LabFurniture() {
       ))}
 
       {/* 오른쪽 구역 - 분석 장비 */}
-      <mesh position={[5.5, 1.25, -5]} castShadow>
+      <mesh position={[5.5, 1.25, -5]} rotation={randomRotation()} castShadow>
         <boxGeometry args={[1.8, 2.5, 0.5]} />
         <meshStandardMaterial color="#c0c0c0" roughness={0.4} metalness={0.6} />
       </mesh>
 
       {/* 오른쪽 작업대 */}
-      <mesh position={[5.5, 0.9, -1.5]} castShadow receiveShadow>
+      <mesh position={[5.5, 0.9, -1.5]} rotation={randomRotation()} castShadow receiveShadow>
         <boxGeometry args={[1.5, 0.05, 1.2]} />
         <meshStandardMaterial color="#e0e0e0" roughness={0.3} metalness={0.7} />
       </mesh>
@@ -240,10 +245,12 @@ function LabFurniture() {
 
 // 회장실 가구 (360도 공간 활용)
 function OfficeFurniture() {
+  const randomRotation = () => [0, Math.random() * 0.08 - 0.04, 0]
+  
   return (
     <group>
       {/* 중앙 고급 책상 */}
-      <RoundedBox args={[3.5, 0.1, 1.8]} position={[0, 0.85, -5]} radius={0.01} smoothness={4} castShadow receiveShadow>
+      <RoundedBox args={[3.5, 0.1, 1.8]} position={[0, 0.85, -5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#2a2a35" roughness={0.2} metalness={0.8} />
       </RoundedBox>
       
@@ -255,28 +262,28 @@ function OfficeFurniture() {
       ))}
 
       {/* 중앙 고급 의자 */}
-      <RoundedBox args={[0.7, 0.12, 0.7]} position={[0, 0.6, -3.3]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[0.7, 0.12, 0.7]} position={[0, 0.6, -3.3]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a1a" />
       </RoundedBox>
-      <RoundedBox args={[0.7, 1, 0.12]} position={[0, 1.1, -3.65]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[0.7, 1, 0.12]} position={[0, 1.1, -3.65]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a1a" />
       </RoundedBox>
 
       {/* 왼쪽 구역 - 책장 */}
-      <RoundedBox args={[2.5, 3, 0.4]} position={[-5.5, 1.5, -5]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[2.5, 3, 0.4]} position={[-5.5, 1.5, -5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#2a2a35" roughness={0.3} metalness={0.7} />
       </RoundedBox>
 
       {/* 왼쪽 소파 */}
-      <RoundedBox args={[1.8, 0.5, 0.8]} position={[-5.5, 0.25, -1.5]} radius={0.02} smoothness={4} castShadow receiveShadow>
+      <RoundedBox args={[1.8, 0.5, 0.8]} position={[-5.5, 0.25, -1.5]} rotation={randomRotation()} radius={0.02} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#1a1a2a" roughness={0.6} metalness={0.2} />
       </RoundedBox>
-      <RoundedBox args={[1.8, 0.6, 0.15]} position={[-5.5, 0.55, -1.95]} radius={0.02} smoothness={4} castShadow>
+      <RoundedBox args={[1.8, 0.6, 0.15]} position={[-5.5, 0.55, -1.95]} rotation={randomRotation()} radius={0.02} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a2a" roughness={0.6} metalness={0.2} />
       </RoundedBox>
 
       {/* 오른쪽 구역 - 회의 테이블 */}
-      <RoundedBox args={[2, 0.08, 1.2]} position={[5.5, 0.8, -4]} radius={0.01} smoothness={4} castShadow receiveShadow>
+      <RoundedBox args={[2, 0.08, 1.2]} position={[5.5, 0.8, -4]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#2a2a35" roughness={0.2} metalness={0.8} />
       </RoundedBox>
       {[[-0.9, 0.4, -4.5], [0.9, 0.4, -4.5], [-0.9, 0.4, -3.5], [0.9, 0.4, -3.5]].map((pos, i) => (
@@ -286,10 +293,10 @@ function OfficeFurniture() {
       ))}
 
       {/* 오른쪽 의자들 */}
-      <RoundedBox args={[0.5, 0.1, 0.5]} position={[5.5, 0.5, -2.5]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[0.5, 0.1, 0.5]} position={[5.5, 0.5, -2.5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a1a" />
       </RoundedBox>
-      <RoundedBox args={[0.5, 0.1, 0.5]} position={[5.5, 0.5, -5.5]} radius={0.01} smoothness={4} castShadow>
+      <RoundedBox args={[0.5, 0.1, 0.5]} position={[5.5, 0.5, -5.5]} rotation={randomRotation()} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a1a" />
       </RoundedBox>
 
