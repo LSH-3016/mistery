@@ -54,13 +54,34 @@ npm run dev
 5. **추리**: 최소 3개 증거 수집 후 범인 지목
 6. **새 게임**: "새 시나리오" 버튼으로 다른 사건 생성
 
+## 🎵 사운드 시스템
+
+게임에는 **Howler.js** 기반의 사운드 시스템이 구현되어 있습니다.
+
+### 사운드 효과
+- 🔊 **증거 획득**: 폴라로이드 셔터음
+- 📄 **용의자 클릭**: 종이 넘기는 소리
+- 💓 **범인 긴장**: 심장 박동 소리 (결정적 증거 수집 시)
+- ⚖️ **추리 성공**: 의사봉 소리
+- ❌ **추리 실패**: 실패 효과음
+- 🎵 **배경 음악**: 미스테리 앰비언트 (루프)
+
+### 사운드 파일 추가 방법
+1. `frontend/public/sounds/` 폴더에 MP3 파일 추가
+2. 필요한 파일 목록은 `frontend/public/sounds/README.md` 참고
+3. 무료 사운드 소스: Freesound.org, Zapsplat, Mixkit 등
+
+### 음소거 기능
+- 우측 상단의 🔊 버튼으로 음소거 토글 가능
+- 사운드 파일이 없어도 게임은 정상 작동합니다
+
 ## 🛠️ 기술 스택
 
 ### 백엔드
 - FastAPI, Pydantic, Uvicorn
 
 ### 프론트엔드
-- React 18, Vite, Three.js, React Three Fiber, Zustand, Axios
+- React 18, Vite, Three.js, React Three Fiber, Zustand, Axios, Howler.js
 
 ## � 프로젝트 구조
 

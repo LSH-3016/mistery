@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import useGameStore from '../store/gameStore'
+import soundManager from '../utils/soundManager'
 import './UI.css'
 
 function InterviewModal({ suspect, onClose }) {
@@ -24,8 +25,21 @@ function InterviewModal({ suspect, onClose }) {
   // 긴장도 계산 (범인이고 결정적 증거가 있으면 긴장)
   const isNervous = isCulprit && hasDecisiveEvidence
 
+  // 긴장 상태일 때 심장 박동 소리 재생
+  useEffect(() => {
+    if (isNervous) {
+      soundManager.play('heartbeat')
+    }
+    
+    return () => {
+      soundManager.stop('heartbeat')
+    }
+  }, [isNervous])
+
   const handleAskQuestion = (question) => {
     setSelectedQuestion(question)
+    soundManager.play('buttonClick')
+    
     if (!askedQuestions.includes(question.id)) {
       setAskedQuestions([...askedQuestions, question.id])
     }
@@ -153,6 +167,7 @@ export default function UI() {
   const [selectedCulprit, setSelectedCulprit] = useState('')
   const [selectedMotive, setSelectedMotive] = useState('')
   const [interviewingSuspect, setInterviewingSuspect] = useState(null)
+  const [isMuted, setIsMuted] = useState(false)
 
   // CSS 변수 동적 설정
   useEffect(() => {
@@ -171,6 +186,7 @@ export default function UI() {
       alert('증거를 더 수집해야 합니다! (최소 3개 이상)')
       return
     }
+    soundManager.play('buttonClick')
     setShowSolvePanel(true)
   }
 
@@ -185,8 +201,18 @@ export default function UI() {
     setSelectedMotive('')
   }
 
+  const toggleMute = () => {
+    const muted = soundManager.toggleMute()
+    setIsMuted(muted)
+  }
+
   return (
     <div className="ui-overlay">
+      {/* 음소거 버튼 */}
+      <button className="mute-button" onClick={toggleMute} title={isMuted ? '소리 켜기' : '소리 끄기'}>
+        {isMuted ? '🔇' : '🔊'}
+      </button>
+
       {/* 사건 정보 패널 */}
       <div className="info-panel glass-panel">
         <div className="panel-header">

@@ -58,6 +58,39 @@
     inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
 }
 
+/* 음소거 버튼 */
+.mute-button {
+  position: absolute;
+  top: 20px;
+  right: 380px;
+  width: 50px;
+  height: 50px;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  font-size: 1.5em;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.mute-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-color);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.mute-button:active {
+  transform: scale(0.95);
+}
+
 /* 정보 패널 */
 .info-panel {
   position: absolute;
@@ -1073,6 +1106,10 @@
   .suspects-panel {
     width: 320px;
   }
+  
+  .mute-button {
+    right: 360px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1095,5 +1132,11 @@
     left: 20px;
     width: auto;
     max-height: 220px;
+  }
+  
+  .mute-button {
+    top: auto;
+    bottom: 540px;
+    right: 20px;
   }
 }
