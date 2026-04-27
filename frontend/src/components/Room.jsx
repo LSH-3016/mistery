@@ -93,7 +93,7 @@ export default function Room() {
     const texture = new THREE.CanvasTexture(canvas)
     texture.wrapS = THREE.RepeatWrapping
     texture.wrapT = THREE.RepeatWrapping
-    texture.repeat.set(3, 3)
+    texture.repeat.set(2, 2)
     return texture
   }
 
@@ -203,75 +203,34 @@ export default function Room() {
 
   return (
     <group>
-      {/* 메인 룸 바닥 - PBR 재질 + Normal Map + 개선된 반사 */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[0, 0, 0]}>
-        <planeGeometry args={[15, 15]} />
-        <meshStandardMaterial 
-          color={config.floor}
-          roughness={config.floorRoughness + 0.1}
-          metalness={0.08}
-          map={floorTexture}
-          normalMap={normalMap}
-          normalScale={[0.3, 0.3]}
-          roughnessMap={roughnessMap}
-          envMapIntensity={0.5}
-          aoMapIntensity={1.8}
-        />
-      </mesh>
-
-      {/* 메인 룸 뒷벽 - PBR 재질 + Normal Map */}
-      <mesh position={[0, 2.5, -7.5]} receiveShadow castShadow>
-        <planeGeometry args={[15, 5]} />
+      {/* 방 전체를 감싸는 박스 (BackSide 렌더링으로 내부가 보이는 방 구조) */}
+      <mesh receiveShadow position={[0, 2.5, 0]}>
+        <boxGeometry args={[15, 5, 15]} />
         <meshStandardMaterial 
           color={config.wall}
+          side={THREE.BackSide}
           roughness={config.wallRoughness}
           metalness={0.02}
           map={wallTexture}
           normalMap={normalMap}
           normalScale={[0.2, 0.2]}
           envMapIntensity={0.3}
-          aoMapIntensity={1.2}
+          aoMapIntensity={1.5}
         />
       </mesh>
 
-      {/* 메인 룸 왼쪽 벽 - 약간 다른 반사율 */}
-      <mesh position={[-7.5, 2.5, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow castShadow>
-        <planeGeometry args={[15, 5]} />
-        <meshStandardMaterial 
-          color={config.wall}
-          roughness={config.wallRoughness + 0.05}
-          metalness={0.01}
-          map={wallTexture}
-          normalMap={normalMap}
-          normalScale={[0.2, 0.2]}
-          envMapIntensity={0.25}
-          aoMapIntensity={1.3}
-        />
-      </mesh>
-
-      {/* 메인 룸 오른쪽 벽 - 약간 다른 반사율 */}
-      <mesh position={[7.5, 2.5, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow castShadow>
-        <planeGeometry args={[15, 5]} />
-        <meshStandardMaterial 
-          color={config.wall}
-          roughness={config.wallRoughness - 0.03}
-          metalness={0.03}
-          map={wallTexture}
-          normalMap={normalMap}
-          normalScale={[0.2, 0.2]}
-          envMapIntensity={0.35}
-          aoMapIntensity={1.1}
-        />
-      </mesh>
-
-      {/* 천장 - 약간 반사되는 재질 */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} receiveShadow position={[0, 5, 0]}>
+      {/* 메인 룸 바닥 - PBR 재질 + Normal Map + 개선된 반사 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[0, 0, 0]}>
         <planeGeometry args={[15, 15]} />
         <meshStandardMaterial 
-          color="#1a1a20"
-          roughness={0.7}
-          metalness={0.15}
-          envMapIntensity={0.2}
+          color={config.floor}
+          roughness={0.95}
+          metalness={0.0}
+          map={floorTexture}
+          normalMap={normalMap}
+          normalScale={[0.15, 0.15]}
+          envMapIntensity={0.1}
+          aoMapIntensity={1.2}
         />
       </mesh>
 

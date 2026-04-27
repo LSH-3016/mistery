@@ -72,14 +72,14 @@ export default function Scene() {
         position={[5, 10, 5]}
         intensity={config.main}
         castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
+        shadow-mapSize={[1024, 1024]}
+        shadow-bias={-0.0005}
+        shadow-normalBias={0.02}
+        shadow-camera-far={50}
         shadow-camera-left={-10}
         shadow-camera-right={10}
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
-        shadow-bias={-0.00015}
-        shadow-normalBias={0.01}
       />
       
       {/* 보조 조명 (반대편에서 부드럽게) - 림 라이트 효과 */}
@@ -88,8 +88,8 @@ export default function Scene() {
         intensity={config.main * 0.4}
         color="#aaaacc"
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize={[512, 512]}
+        shadow-bias={-0.0003}
       />
       
       {/* 추가 전역 조명 (전체적으로 밝게) - 약하게 조정 */}
@@ -106,9 +106,6 @@ export default function Scene() {
         color={config.accent1.color}
         distance={15}
         decay={2}
-        castShadow
-        shadow-mapSize-width={512}
-        shadow-mapSize-height={512}
       />
       <pointLight 
         position={config.accent2.position} 
@@ -116,9 +113,6 @@ export default function Scene() {
         color={config.accent2.color}
         distance={15}
         decay={2}
-        castShadow
-        shadow-mapSize-width={512}
-        shadow-mapSize-height={512}
       />
       <pointLight 
         position={config.accent3.position} 
@@ -167,9 +161,8 @@ export default function Scene() {
         penumbra={0.8}
         intensity={1.8}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
-        shadow-bias={-0.00015}
+        shadow-mapSize={[512, 512]}
+        shadow-bias={-0.0005}
       />
 
       {/* 안개 효과 (노아르 분위기) */}
@@ -184,37 +177,26 @@ export default function Scene() {
 
       {/* 접촉 그림자 - 바닥에 진하고 날카로운 그림자 */}
       <ContactShadows
-        position={[0, 0.005, 0]}
-        opacity={0.8}
+        position={[0, 0.001, 0]}
+        opacity={0.6}
         scale={15}
-        blur={1.2}
-        far={8}
+        blur={1.5}
+        far={5}
         resolution={512}
-        color="#000000"
-      />
-      
-      {/* 초강력 접촉 그림자 - 물체 발밑 완전한 블랙 */}
-      <ContactShadows
-        position={[0, 0.002, 0]}
-        opacity={1.0}
-        scale={15}
-        blur={0.5}
-        far={3}
-        resolution={256}
         color="#000000"
       />
 
       {/* 환경 조명 - 미묘한 반사광 */}
       <Environment preset="night" />
 
-      {/* 포스트 프로세싱 효과 - 고퀄리티 */}
+      {/* 포스트 프로세싱 효과 - 성능 최적화 */}
       <EffectComposer multisampling={0}>
-        {/* SSAO - 가장 중요! 모서리에 진한 선 생성 */}
+        {/* SSAO - 적절한 수준으로 조정 */}
         <SSAO
           samples={16}
           radius={0.2}
-          intensity={60}
-          luminanceInfluence={0.5}
+          intensity={30}
+          luminanceInfluence={0.6}
           color="black"
           bias={0.015}
         />
