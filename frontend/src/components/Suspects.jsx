@@ -69,7 +69,7 @@ function SuspectCharacter({ suspect, position, onClick }) {
         document.body.style.cursor = 'default'
       }}
     >
-      {/* 몸통 */}
+      {/* 몸통 - 어두운 실루엣 */}
       <Box 
         args={[0.4, 0.6, 0.25]} 
         position={[0, 0.9, 0]} 
@@ -77,93 +77,154 @@ function SuspectCharacter({ suspect, position, onClick }) {
         receiveShadow
       >
         <meshStandardMaterial 
-          color={appearance.clothesColor}
-          roughness={0.8}
+          color={hovered ? appearance.clothesColor : '#3a3a3a'}
+          roughness={0.9}
+          metalness={0.0}
+          emissive={hovered ? appearance.clothesColor : '#2a2a2a'}
+          emissiveIntensity={hovered ? 0.3 : 0.1}
         />
       </Box>
 
-      {/* 머리 */}
+      {/* 머리 - 얼굴 없는 실루엣 */}
       <Sphere args={[0.18]} position={[0, 1.4, 0]} castShadow>
-        <meshStandardMaterial color={appearance.skinColor} roughness={0.9} />
+        <meshStandardMaterial 
+          color={hovered ? appearance.skinColor : '#2a2a2a'}
+          roughness={1.0}
+          emissive={hovered ? appearance.skinColor : '#1a1a1a'}
+          emissiveIntensity={hovered ? 0.2 : 0.05}
+        />
       </Sphere>
 
-      {/* 머리카락 */}
+      {/* 머리카락 - 어두운 실루엣 */}
       <Sphere args={[0.19]} position={[0, 1.48, 0]} castShadow>
-        <meshStandardMaterial color={appearance.hairColor} roughness={0.95} />
+        <meshStandardMaterial 
+          color={hovered ? '#1a1a1a' : '#0a0a0a'}
+          roughness={1.0}
+          emissive={hovered ? '#1a1a1a' : '#000000'}
+          emissiveIntensity={hovered ? 0.1 : 0}
+        />
       </Sphere>
 
-      {/* 팔 (왼쪽) */}
+      {/* 팔 (왼쪽) - 실루엣 */}
       <Box args={[0.12, 0.5, 0.12]} position={[-0.26, 0.85, 0]} castShadow>
-        <meshStandardMaterial color={appearance.clothesColor} roughness={0.8} />
+        <meshStandardMaterial 
+          color={hovered ? appearance.clothesColor : '#3a3a3a'}
+          roughness={0.9}
+          emissive={hovered ? appearance.clothesColor : '#2a2a2a'}
+          emissiveIntensity={hovered ? 0.3 : 0.1}
+        />
       </Box>
       <Box args={[0.1, 0.35, 0.1]} position={[-0.26, 0.4, 0]} castShadow>
-        <meshStandardMaterial color={appearance.skinColor} roughness={0.9} />
+        <meshStandardMaterial 
+          color={hovered ? appearance.skinColor : '#2a2a2a'}
+          roughness={1.0}
+          emissive={hovered ? appearance.skinColor : '#1a1a1a'}
+          emissiveIntensity={hovered ? 0.2 : 0.05}
+        />
       </Box>
 
-      {/* 팔 (오른쪽) */}
+      {/* 팔 (오른쪽) - 실루엣 */}
       <Box args={[0.12, 0.5, 0.12]} position={[0.26, 0.85, 0]} castShadow>
-        <meshStandardMaterial color={appearance.clothesColor} roughness={0.8} />
+        <meshStandardMaterial 
+          color={hovered ? appearance.clothesColor : '#3a3a3a'}
+          roughness={0.9}
+          emissive={hovered ? appearance.clothesColor : '#2a2a2a'}
+          emissiveIntensity={hovered ? 0.3 : 0.1}
+        />
       </Box>
       <Box args={[0.1, 0.35, 0.1]} position={[0.26, 0.4, 0]} castShadow>
-        <meshStandardMaterial color={appearance.skinColor} roughness={0.9} />
+        <meshStandardMaterial 
+          color={hovered ? appearance.skinColor : '#2a2a2a'}
+          roughness={1.0}
+          emissive={hovered ? appearance.skinColor : '#1a1a1a'}
+          emissiveIntensity={hovered ? 0.2 : 0.05}
+        />
       </Box>
 
-      {/* 다리 (왼쪽) */}
+      {/* 다리 (왼쪽) - 실루엣 */}
       <Box args={[0.15, 0.6, 0.15]} position={[-0.12, 0.3, 0]} castShadow>
-        <meshStandardMaterial color="#2a2a3a" roughness={0.7} />
+        <meshStandardMaterial 
+          color={hovered ? '#2a2a2a' : '#1a1a1a'}
+          roughness={0.95}
+          emissive={hovered ? '#1a1a1a' : '#000000'}
+          emissiveIntensity={hovered ? 0.1 : 0}
+        />
       </Box>
 
-      {/* 다리 (오른쪽) */}
+      {/* 다리 (오른쪽) - 실루엣 */}
       <Box args={[0.15, 0.6, 0.15]} position={[0.12, 0.3, 0]} castShadow>
-        <meshStandardMaterial color="#2a2a3a" roughness={0.7} />
+        <meshStandardMaterial 
+          color={hovered ? '#2a2a2a' : '#1a1a1a'}
+          roughness={0.95}
+          emissive={hovered ? '#1a1a1a' : '#000000'}
+          emissiveIntensity={hovered ? 0.1 : 0}
+        />
       </Box>
 
-      {/* 액세서리/특징 */}
-      {appearance.accessory === 'paint' && (
+      {/* 액세서리/특징 - 호버 시에만 보임 */}
+      {hovered && appearance.accessory === 'paint' && (
         <>
           {/* 물감 얼룩 (옷에) */}
           <Box args={[0.08, 0.08, 0.26]} position={[0.1, 0.9, 0.13]}>
-            <meshStandardMaterial color="#d4a574" roughness={0.6} />
+            <meshStandardMaterial 
+              color="#d4a574"
+              roughness={0.6}
+              emissive="#d4a574"
+              emissiveIntensity={0.3}
+            />
           </Box>
           <Box args={[0.06, 0.06, 0.26]} position={[-0.08, 1.0, 0.13]}>
-            <meshStandardMaterial color="#8b7355" roughness={0.6} />
+            <meshStandardMaterial 
+              color="#8b7355"
+              roughness={0.6}
+              emissive="#8b7355"
+              emissiveIntensity={0.3}
+            />
           </Box>
         </>
       )}
 
-      {appearance.accessory === 'labcoat' && (
+      {hovered && appearance.accessory === 'labcoat' && (
         <>
           {/* 흰 가운 (몸통 위에) */}
           <Box args={[0.42, 0.65, 0.27]} position={[0, 0.9, 0]}>
-            <meshStandardMaterial color="#f5f5f5" roughness={0.7} transparent opacity={0.95} />
+            <meshStandardMaterial 
+              color="#f5f5f5"
+              roughness={0.7}
+              transparent
+              opacity={0.9}
+              emissive="#f5f5f5"
+              emissiveIntensity={0.2}
+            />
           </Box>
-          {/* 가운 단추 */}
-          <Sphere args={[0.03]} position={[0, 1.1, 0.14]} castShadow>
-            <meshStandardMaterial color="#cccccc" />
-          </Sphere>
-          <Sphere args={[0.03]} position={[0, 0.9, 0.14]} castShadow>
-            <meshStandardMaterial color="#cccccc" />
-          </Sphere>
-          <Sphere args={[0.03]} position={[0, 0.7, 0.14]} castShadow>
-            <meshStandardMaterial color="#cccccc" />
-          </Sphere>
         </>
       )}
 
-      {appearance.accessory === 'suit' && (
+      {hovered && appearance.accessory === 'suit' && (
         <>
           {/* 넥타이 */}
           <Box args={[0.08, 0.35, 0.02]} position={[0, 1.0, 0.13]} castShadow>
-            <meshStandardMaterial color="#8b0000" roughness={0.5} />
+            <meshStandardMaterial 
+              color="#8b0000"
+              roughness={0.5}
+              emissive="#8b0000"
+              emissiveIntensity={0.4}
+            />
           </Box>
         </>
       )}
 
-      {appearance.accessory === 'uniform' && (
+      {hovered && appearance.accessory === 'uniform' && (
         <>
           {/* 명찰 */}
           <Box args={[0.12, 0.08, 0.02]} position={[0.15, 1.1, 0.13]} castShadow>
-            <meshStandardMaterial color="#ffcc00" metalness={0.6} roughness={0.3} />
+            <meshStandardMaterial 
+              color="#ffcc00"
+              metalness={0.6}
+              roughness={0.3}
+              emissive="#ffcc00"
+              emissiveIntensity={0.5}
+            />
           </Box>
         </>
       )}
@@ -172,33 +233,42 @@ function SuspectCharacter({ suspect, position, onClick }) {
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
         <circleGeometry args={[0.4, 32]} />
         <meshBasicMaterial 
-          color={hovered ? '#ffaa00' : '#000000'}
+          color={hovered ? '#ff6600' : '#000000'}
           transparent 
-          opacity={hovered ? 0.5 : 0.2}
+          opacity={hovered ? 0.6 : 0.3}
         />
       </mesh>
       
-      {/* 호버 시 테두리 링 */}
+      {/* 호버 시 테두리 링 - 더 강렬하게 */}
       {hovered && (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
-          <ringGeometry args={[0.45, 0.5, 32]} />
-          <meshBasicMaterial 
-            color="#ffaa00"
-            transparent 
-            opacity={0.8}
+        <>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+            <ringGeometry args={[0.45, 0.5, 32]} />
+            <meshBasicMaterial 
+              color="#ff6600"
+              transparent 
+              opacity={0.9}
+            />
+          </mesh>
+          {/* 빛나는 효과 */}
+          <pointLight 
+            position={[0, 1.5, 0]} 
+            intensity={1.5} 
+            distance={3}
+            color="#ff6600"
           />
-        </mesh>
+        </>
       )}
       
       {/* 호버 시 이름 표시 */}
       {hovered && (
         <Text
-          position={[0, 2, 0]}
-          fontSize={0.25}
+          position={[0, 2.2, 0]}
+          fontSize={0.3}
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          outlineWidth={0.02}
+          outlineWidth={0.03}
           outlineColor="#000000"
         >
           {suspect.name}

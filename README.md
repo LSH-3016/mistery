@@ -54,7 +54,25 @@ npm run dev
 5. **추리**: 최소 3개 증거 수집 후 범인 지목
 6. **새 게임**: "새 시나리오" 버튼으로 다른 사건 생성
 
-## 🎵 사운드 시스템
+## � 비주얼 & 분위기
+
+### 노아르 미스테리 스타일
+- **어두운 조명**: 극적인 포인트 라이트와 스포트라이트로 긴장감 연출
+- **실루엣 캐릭터**: 얼굴 없는 어두운 실루엣으로 미스테리한 분위기
+- **호버 효과**: 용의자에 마우스를 올리면 색상과 특징이 드러남
+
+### 포스트 프로세싱 효과
+- **블룸 (Bloom)**: 밝은 조명이 번지는 효과
+- **비네팅 (Vignette)**: 화면 가장자리 어둡게 처리
+- **색수차 (Chromatic Aberration)**: 미세한 렌즈 왜곡
+- **필름 그레인 (Noise)**: 거친 필름 느낌
+
+### 프로시저럴 텍스처
+- 바닥과 벽에 노이즈 텍스처 적용
+- 시나리오별 다른 재질 (나무, 타일, 대리석)
+- 천장 추가로 공간감 향상
+
+## �🎵 사운드 시스템
 
 게임에는 **Howler.js** 기반의 사운드 시스템이 구현되어 있습니다.
 
@@ -81,7 +99,7 @@ npm run dev
 - FastAPI, Pydantic, Uvicorn
 
 ### 프론트엔드
-- React 18, Vite, Three.js, React Three Fiber, Zustand, Axios, Howler.js
+- React 18, Vite, Three.js, React Three Fiber v9, @react-three/drei, @react-three/postprocessing, Zustand, Axios, Howler.js
 
 ## � 프로젝트 구조
 
