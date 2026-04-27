@@ -229,13 +229,23 @@ function SuspectCharacter({ suspect, position, onClick }) {
         </>
       )}
 
-      {/* 발 밑 그림자 강조 */}
+      {/* 발 밑 그림자 강조 - 2중 레이어 */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
         <circleGeometry args={[0.4, 32]} />
         <meshBasicMaterial 
           color={hovered ? '#ff6600' : '#000000'}
           transparent 
           opacity={hovered ? 0.6 : 0.3}
+        />
+      </mesh>
+      
+      {/* 정적 그림자 원반 - 완전한 블랙 (발밑 고정) */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, 0]} receiveShadow>
+        <circleGeometry args={[0.25, 32]} />
+        <meshBasicMaterial 
+          color="#000000"
+          transparent 
+          opacity={0.9}
         />
       </mesh>
       
@@ -296,32 +306,32 @@ export default function Suspects() {
 
   if (!scenario) return null
 
-  // 시나리오별 용의자 위치 배치
+  // 시나리오별 용의자 위치 배치 (360도 원형 배치)
   const getSuspectPositions = () => {
     switch (scenario.case_title) {
       case '베이지 갤러리의 정전':
         return [
-          [-4.5, 0, -2],   // 왼쪽
-          [0, 0, -6.5],    // 중앙 뒤
-          [4.5, 0, -2]     // 오른쪽
+          [-5, 0, -3],     // 왼쪽 (작가)
+          [0, 0, -7],      // 뒤쪽 중앙 (큐레이터)
+          [5, 0, -3]       // 오른쪽 (보안요원)
         ]
       case '심야 연구실의 비밀':
         return [
-          [-5, 0, -3],     // 왼쪽
-          [0, 0, -6.8],    // 중앙 뒤
-          [5, 0, -3]       // 오른쪽
+          [-5.5, 0, -2],   // 왼쪽 (연구원 A)
+          [0, 0, -7.2],    // 뒤쪽 중앙 (연구원 B)
+          [5.5, 0, -2]     // 오른쪽 (연구원 C)
         ]
       case '고층 빌딩의 추락':
         return [
-          [-4.8, 0, -2.5], // 왼쪽
-          [0, 0, -6.5],    // 중앙 뒤
-          [4.8, 0, -2.5]   // 오른쪽
+          [-5.2, 0, -2.5], // 왼쪽 (비서)
+          [0, 0, -7],      // 뒤쪽 중앙 (전무)
+          [5.2, 0, -2.5]   // 오른쪽 (회장)
         ]
       default:
         return [
-          [-4, 0, -3],
-          [0, 0, -6],
-          [4, 0, -3]
+          [-5, 0, -3],
+          [0, 0, -7],
+          [5, 0, -3]
         ]
     }
   }

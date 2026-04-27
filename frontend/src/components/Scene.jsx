@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { EffectComposer, Bloom, Vignette, Noise, ChromaticAberration } from '@react-three/postprocessing'
+import { EffectComposer, Bloom, Vignette, Noise, ChromaticAberration, SSAO } from '@react-three/postprocessing'
 import { ContactShadows, Environment } from '@react-three/drei'
 import { BlendFunction } from 'postprocessing'
 import useGameStore from '../store/gameStore'
@@ -67,18 +67,19 @@ export default function Scene() {
       {/* 조명 - 노아르 스타일로 어둡고 극적으로 */}
       <ambientLight intensity={config.ambient} />
       
-      {/* 메인 조명 (위에서 비추는 극적인 조명) - 더 강렬하게 */}
+      {/* 메인 조명 (위에서 비추는 극적인 조명) - 그림자 강화 */}
       <directionalLight
         position={[5, 10, 5]}
         intensity={config.main}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
         shadow-camera-left={-10}
         shadow-camera-right={10}
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
-        shadow-bias={-0.0001}
+        shadow-bias={-0.00015}
+        shadow-normalBias={0.01}
       />
       
       {/* 보조 조명 (반대편에서 부드럽게) - 림 라이트 효과 */}
@@ -86,6 +87,9 @@ export default function Scene() {
         position={[-3, 8, -3]}
         intensity={config.main * 0.4}
         color="#aaaacc"
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
       />
       
       {/* 추가 전역 조명 (전체적으로 밝게) - 약하게 조정 */}
@@ -102,6 +106,9 @@ export default function Scene() {
         color={config.accent1.color}
         distance={15}
         decay={2}
+        castShadow
+        shadow-mapSize-width={512}
+        shadow-mapSize-height={512}
       />
       <pointLight 
         position={config.accent2.position} 
@@ -109,6 +116,9 @@ export default function Scene() {
         color={config.accent2.color}
         distance={15}
         decay={2}
+        castShadow
+        shadow-mapSize-width={512}
+        shadow-mapSize-height={512}
       />
       <pointLight 
         position={config.accent3.position} 
@@ -127,15 +137,39 @@ export default function Scene() {
         decay={2}
       />
       
-      {/* 스포트라이트 (중앙 집중 - 더 극적으로) */}
+      {/* Fake GI - 바닥 반사광 (바닥에서 위로 빛 반사) */}
+      <pointLight 
+        position={[0, 0.1, -4]} 
+        intensity={0.3}
+        color={config.fog}
+        distance={5}
+        decay={2}
+      />
+      <pointLight 
+        position={[-3, 0.1, -2]} 
+        intensity={0.25}
+        color={config.fog}
+        distance={4}
+        decay={2}
+      />
+      <pointLight 
+        position={[3, 0.1, -5]} 
+        intensity={0.25}
+        color={config.fog}
+        distance={4}
+        decay={2}
+      />
+      
+      {/* 스포트라이트 (중앙 집중 - 더 극적으로) - 그림자 강화 */}
       <spotLight
         position={[0, 8, -5]}
         angle={0.4}
         penumbra={0.8}
         intensity={1.8}
         castShadow
-        shadow-mapSize-width={512}
-        shadow-mapSize-height={512}
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+        shadow-bias={-0.00015}
       />
 
       {/* 안개 효과 (노아르 분위기) */}
@@ -158,12 +192,33 @@ export default function Scene() {
         resolution={512}
         color="#000000"
       />
+      
+      {/* 초강력 접촉 그림자 - 물체 발밑 완전한 블랙 */}
+      <ContactShadows
+        position={[0, 0.002, 0]}
+        opacity={1.0}
+        scale={15}
+        blur={0.5}
+        far={3}
+        resolution={256}
+        color="#000000"
+      />
 
       {/* 환경 조명 - 미묘한 반사광 */}
       <Environment preset="night" />
 
-      {/* 포스트 프로세싱 효과 - 개선됨 */}
+      {/* 포스트 프로세싱 효과 - 고퀄리티 */}
       <EffectComposer multisampling={0}>
+        {/* SSAO - 가장 중요! 모서리에 진한 선 생성 */}
+        <SSAO
+          samples={16}
+          radius={0.2}
+          intensity={60}
+          luminanceInfluence={0.5}
+          color="black"
+          bias={0.015}
+        />
+
         {/* 블룸 - 밝은 부분이 번지는 효과 */}
         <Bloom
           intensity={0.4}

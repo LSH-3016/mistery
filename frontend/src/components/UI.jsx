@@ -168,6 +168,11 @@ export default function UI() {
   const [selectedMotive, setSelectedMotive] = useState('')
   const [interviewingSuspect, setInterviewingSuspect] = useState(null)
   const [isMuted, setIsMuted] = useState(false)
+  
+  // 패널 접기/펴기 상태
+  const [isCaseInfoCollapsed, setIsCaseInfoCollapsed] = useState(false)
+  const [isSuspectsCollapsed, setIsSuspectsCollapsed] = useState(false)
+  const [isEvidenceCollapsed, setIsEvidenceCollapsed] = useState(false)
 
   // CSS 변수 동적 설정
   useEffect(() => {
@@ -214,11 +219,14 @@ export default function UI() {
       </button>
 
       {/* 사건 정보 패널 */}
-      <div className="info-panel glass-panel">
-        <div className="panel-header">
+      <div className={`info-panel glass-panel ${isCaseInfoCollapsed ? 'collapsed' : ''}`}>
+        <div className="panel-header" onClick={() => setIsCaseInfoCollapsed(!isCaseInfoCollapsed)}>
           <h2>🔒 {scenario.case_title}</h2>
+          <button className="collapse-btn">{isCaseInfoCollapsed ? '▼' : '▲'}</button>
         </div>
         
+        {!isCaseInfoCollapsed && (
+        <>
         <div className="case-details">
           <div className="detail-row">
             <span className="label">피해자</span>
@@ -266,14 +274,17 @@ export default function UI() {
         <button className="secondary-btn" onClick={resetGame}>
           🔄 새 시나리오
         </button>
+        </>
+        )}
       </div>
 
       {/* 용의자 패널 */}
-      <div className="suspects-panel glass-panel">
-        <div className="panel-header">
+      <div className={`suspects-panel glass-panel ${isSuspectsCollapsed ? 'collapsed' : ''}`}>
+        <div className="panel-header" onClick={() => setIsSuspectsCollapsed(!isSuspectsCollapsed)}>
           <h2>👥 용의자 목록</h2>
+          <button className="collapse-btn">{isSuspectsCollapsed ? '▼' : '▲'}</button>
         </div>
-        {scenario.suspects.map((suspect) => (
+        {!isSuspectsCollapsed && scenario.suspects.map((suspect) => (
           <div
             key={suspect.id}
             className="suspect-card"
@@ -290,8 +301,12 @@ export default function UI() {
       </div>
 
       {/* 증거 패널 */}
-      <div className="evidence-panel glass-panel">
-        <h3>📋 수집한 증거 <span className="evidence-count">({collectedEvidence.length}/{scenario.evidence.length})</span></h3>
+      <div className={`evidence-panel glass-panel ${isEvidenceCollapsed ? 'collapsed' : ''}`}>
+        <div className="panel-header" onClick={() => setIsEvidenceCollapsed(!isEvidenceCollapsed)}>
+          <h3>📋 수집한 증거 <span className="evidence-count">({collectedEvidence.length}/{scenario.evidence.length})</span></h3>
+          <button className="collapse-btn">{isEvidenceCollapsed ? '▼' : '▲'}</button>
+        </div>
+        {!isEvidenceCollapsed && (
         <div className="evidence-list">
           {collectedEvidence.length === 0 ? (
             <div className="no-evidence">아직 수집한 증거가 없습니다</div>
@@ -311,6 +326,7 @@ export default function UI() {
             })
           )}
         </div>
+        )}
       </div>
 
       {/* 인터뷰 모달 */}
