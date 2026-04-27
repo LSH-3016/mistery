@@ -5,7 +5,6 @@ import './UI.css'
 function InterviewModal({ suspect, onClose }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [askedQuestions, setAskedQuestions] = useState([])
-  const [conversationLog, setConversationLog] = useState([])
   const { collectedEvidence, scenario } = useGameStore()
 
   const questions = [
@@ -29,12 +28,6 @@ function InterviewModal({ suspect, onClose }) {
     setSelectedQuestion(question)
     if (!askedQuestions.includes(question.id)) {
       setAskedQuestions([...askedQuestions, question.id])
-      // 대화 로그에 추가
-      setConversationLog([
-        ...conversationLog,
-        { type: 'question', text: question.text },
-        { type: 'answer', text: question.answer, nervous: isNervous }
-      ])
     }
   }
 
@@ -80,29 +73,8 @@ function InterviewModal({ suspect, onClose }) {
             ))}
           </div>
 
-          {/* 대화 로그 */}
-          {conversationLog.length > 0 && (
-            <div className="conversation-log">
-              <h4>📝 대화 기록</h4>
-              <div className="log-content">
-                {conversationLog.map((entry, index) => (
-                  <div key={index} className={`log-entry ${entry.type} ${entry.nervous ? 'nervous' : ''}`}>
-                    <span className="log-label">
-                      {entry.type === 'question' ? '질문:' : '답변:'}
-                    </span>
-                    <span className="log-text">{entry.text}</span>
-                    {entry.nervous && (
-                      <span className="nervous-indicator" title="용의자가 긴장하고 있습니다">
-                        💦
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {selectedQuestion && !conversationLog.length && (
+          {/* 선택된 질문의 답변 표시 */}
+          {selectedQuestion && (
             <div className={`answer-box ${isNervous ? 'nervous' : ''}`}>
               <div className="answer-label">
                 답변:
