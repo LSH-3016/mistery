@@ -3,8 +3,9 @@
   --secondary-color: #4ecdc4;
   --accent-color: #ffe66d;
   --bg-overlay: rgba(10, 10, 15, 0.92);
-  --text-primary: #eee;
+  --text-primary: #f5f5f5;
   --text-secondary: #ff6b6b;
+  --text-dark: #2a2a2a;
 }
 
 .ui-overlay {
@@ -16,6 +17,25 @@
   pointer-events: none;
   z-index: 10;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 비네팅 효과 (화면 가장자리 어둡게) */
+.ui-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.3) 80%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: -1;
 }
 
 /* Glass Panel 효과 */
@@ -47,6 +67,10 @@
   max-height: calc(100vh - 40px);
   overflow-y: auto;
   padding: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .info-panel::-webkit-scrollbar {
@@ -207,6 +231,10 @@
   max-height: calc(100vh - 40px);
   overflow-y: auto;
   padding: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .suspects-panel::-webkit-scrollbar {
@@ -284,19 +312,49 @@
   width: 340px;
   max-height: 250px;
   padding: 20px;
+  background: linear-gradient(135deg, #d4c4a8 0%, #c4b498 100%);
+  border: 2px solid #8b7355;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.evidence-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 24px,
+      rgba(139, 115, 85, 0.15) 24px,
+      rgba(139, 115, 85, 0.15) 25px
+    );
+  pointer-events: none;
+  border-radius: 14px;
 }
 
 .evidence-panel h3 {
   margin: 0 0 15px 0;
   font-size: 1.1em;
-  color: var(--secondary-color);
-  font-weight: 600;
+  color: #2a1a0a;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .evidence-count {
-  color: var(--text-primary);
-  opacity: 0.7;
+  color: #2a1a0a;
+  opacity: 0.9;
   font-size: 0.9em;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .evidence-list {
@@ -317,16 +375,18 @@
 }
 
 .evidence-list::-webkit-scrollbar-thumb {
-  background: var(--secondary-color);
+  background: #8b7355;
   border-radius: 3px;
 }
 
 .no-evidence {
   text-align: center;
   padding: 30px;
-  color: var(--text-primary);
-  opacity: 0.5;
+  color: #4a3a2a;
+  opacity: 0.8;
   font-style: italic;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .evidence-item {
@@ -334,32 +394,33 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(78, 205, 196, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.25) 0%, rgba(139, 115, 85, 0.15) 100%);
   border-radius: 8px;
-  border: 1px solid rgba(78, 205, 196, 0.3);
+  border: 1px solid rgba(139, 115, 85, 0.4);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .evidence-item:hover {
-  background: linear-gradient(135deg, rgba(78, 205, 196, 0.25) 0%, rgba(78, 205, 196, 0.1) 100%);
-  border-color: var(--secondary-color);
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.35) 0%, rgba(139, 115, 85, 0.25) 100%);
+  border-color: #8b7355;
   transform: translateX(5px);
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+  box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
 }
 
 .evidence-icon {
   font-size: 1.3em;
-  filter: drop-shadow(0 2px 5px rgba(78, 205, 196, 0.5));
+  filter: drop-shadow(0 2px 5px rgba(61, 40, 23, 0.5));
   min-width: 24px;
 }
 
 .evidence-name {
   font-size: 0.85em;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-weight: 700;
+  color: #2a1a0a;
   flex: 1;
   line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
 }
 
 /* 모달 */
@@ -577,6 +638,89 @@
   font-size: 0.95em;
 }
 
+/* 대화 로그 */
+.conversation-log {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.conversation-log h4 {
+  margin: 0 0 12px 0;
+  color: var(--accent-color);
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.log-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.log-entry {
+  padding: 10px 12px;
+  border-radius: 8px;
+  line-height: 1.5;
+  font-size: 0.9em;
+  animation: logFadeIn 0.3s ease;
+}
+
+@keyframes logFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.log-entry.question {
+  background: linear-gradient(135deg, rgba(255, 230, 109, 0.2) 0%, rgba(255, 230, 109, 0.1) 100%);
+  border-left: 3px solid var(--accent-color);
+  margin-left: 0;
+}
+
+.log-entry.answer {
+  background: linear-gradient(135deg, rgba(78, 205, 196, 0.2) 0%, rgba(78, 205, 196, 0.1) 100%);
+  border-left: 3px solid var(--secondary-color);
+  margin-left: 20px;
+}
+
+.log-label {
+  display: inline-block;
+  font-weight: 700;
+  margin-right: 8px;
+  color: var(--text-primary);
+  opacity: 0.8;
+  font-size: 0.85em;
+  text-transform: uppercase;
+}
+
+.log-text {
+  color: var(--text-primary);
+}
+
+.conversation-log::-webkit-scrollbar {
+  width: 6px;
+}
+
+.conversation-log::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.conversation-log::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 3px;
+}
+
 .close-btn {
   width: calc(100% - 50px);
   margin: 20px 25px;
@@ -596,27 +740,68 @@
 }
 
 /* 증거 상세 모달 */
+.evidence-modal {
+  max-width: 500px;
+  background: linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 8px solid #ffffff;
+  border-radius: 4px;
+  animation: polaroidDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes polaroidDrop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-15deg) translateY(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+}
+
+.evidence-modal .modal-header {
+  background: transparent;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  padding: 20px 25px 15px;
+}
+
+.evidence-modal .modal-header h2 {
+  font-family: 'Courier New', monospace;
+  color: #2a2a2a;
+  text-shadow: none;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
 .evidence-detail {
   padding: 25px;
+  background: linear-gradient(135deg, #fafaf5 0%, #f0f0e8 100%);
 }
 
 .detail-section {
   margin-bottom: 20px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
 }
 
 .detail-section strong {
   display: block;
-  color: var(--secondary-color);
+  color: #3d2817;
   margin-bottom: 8px;
-  font-size: 0.9em;
+  font-size: 0.85em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
 }
 
 .detail-section p {
   margin: 0;
   line-height: 1.7;
-  color: var(--text-primary);
+  color: #2a2a2a;
+  font-size: 0.95em;
 }
 
 .detail-section.clue-type {
@@ -674,6 +859,93 @@
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 0.95em;
+}
+
+.stat-icon {
+  font-size: 1.2em;
+}
+
+.stat-item.success {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.stat-item.warning {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+/* 범인 자백 박스 */
+.confession-box {
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 107, 107, 0.05) 100%);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 10px;
+  animation: confessionReveal 0.8s ease;
+}
+
+@keyframes confessionReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confession-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 1.05em;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.confession-icon {
+  font-size: 1.3em;
+}
+
+.confession-text {
+  color: var(--text-primary);
+  font-style: italic;
+  line-height: 1.7;
+  font-size: 0.95em;
+  margin: 0;
+  padding-left: 10px;
+  border-left: 2px solid rgba(255, 107, 107, 0.3);
+}
+
+/* 범인의 비웃음 박스 */
+.taunt-box {
+  margin: 20px 0;
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(255, 230, 109, 0.15) 0%, rgba(255, 230, 109, 0.05) 100%);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 10px;
+}
+
+.taunt-text {
+  color: var(--text-primary);
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95em;
 }
 
 .explanation-box strong {

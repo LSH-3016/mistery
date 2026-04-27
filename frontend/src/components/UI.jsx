@@ -5,6 +5,7 @@ import './UI.css'
 function InterviewModal({ suspect, onClose }) {
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [askedQuestions, setAskedQuestions] = useState([])
+  const [conversationLog, setConversationLog] = useState([])
 
   const questions = [
     { id: 'q1', text: suspect.interview.q1, answer: suspect.interview.a1 },
@@ -16,6 +17,12 @@ function InterviewModal({ suspect, onClose }) {
     setSelectedQuestion(question)
     if (!askedQuestions.includes(question.id)) {
       setAskedQuestions([...askedQuestions, question.id])
+      // 대화 로그에 추가
+      setConversationLog([
+        ...conversationLog,
+        { type: 'question', text: question.text },
+        { type: 'answer', text: question.answer }
+      ])
     }
   }
 
@@ -61,7 +68,24 @@ function InterviewModal({ suspect, onClose }) {
             ))}
           </div>
 
-          {selectedQuestion && (
+          {/* 대화 로그 */}
+          {conversationLog.length > 0 && (
+            <div className="conversation-log">
+              <h4>📝 대화 기록</h4>
+              <div className="log-content">
+                {conversationLog.map((entry, index) => (
+                  <div key={index} className={`log-entry ${entry.type}`}>
+                    <span className="log-label">
+                      {entry.type === 'question' ? '질문:' : '답변:'}
+                    </span>
+                    <span className="log-text">{entry.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {selectedQuestion && !conversationLog.length && (
             <div className="answer-box">
               <div className="answer-label">답변:</div>
               <div className="answer-text">"{selectedQuestion.answer}"</div>
@@ -311,6 +335,23 @@ export default function UI() {
             {selectedModal.data.correct ? (
               <div className="result-content">
                 <p className="success-message">축하합니다! 완벽한 추리였습니다!</p>
+                
+                {/* 범인 자백 연출 */}
+                <div className="confession-box">
+                  <div className="confession-header">
+                    <span className="confession-icon">🎭</span>
+                    <strong>{selectedModal.data.solution.culprit}의 자백</strong>
+                  </div>
+                  <p className="confession-text">
+                    "...인정합니다. 제가 {scenario.victim.name}을(를) 죽였습니다. 
+                    {selectedModal.data.solution.motive === '금전' && ' 돈 때문이었습니다...'}
+                    {selectedModal.data.solution.motive === '복수' && ' 복수하고 싶었습니다...'}
+                    {selectedModal.data.solution.motive === '권력' && ' 권력을 지키기 위해서였습니다...'}
+                    {selectedModal.data.solution.motive === '비밀' && ' 비밀이 밝혀질까 두려웠습니다...'}
+                    더 이상 숨길 수 없군요."
+                  </p>
+                </div>
+
                 <div className="solution-details">
                   <div className="detail-row">
                     <span className="label">범인</span>
@@ -326,13 +367,29 @@ export default function UI() {
                   <p>{selectedModal.data.solution.explanation}</p>
                 </div>
                 <div className="stats-box">
-                  수집한 증거: {selectedModal.data.collectedCount}/{selectedModal.data.totalCount}개<br />
-                  당신은 훌륭한 탐정입니다! 🕵️
+                  <div className="stat-item">
+                    <span className="stat-icon">🔍</span>
+                    <span>수집한 증거: {selectedModal.data.collectedCount}/{selectedModal.data.totalCount}개</span>
+                  </div>
+                  <div className="stat-item success">
+                    <span className="stat-icon">⭐</span>
+                    <span>당신은 훌륭한 탐정입니다!</span>
+                  </div>
                 </div>
               </div>
             ) : (
               <div className="result-content">
                 <p className="failure-message">추리가 틀렸습니다. 증거를 다시 검토해보세요.</p>
+                
+                {/* 범인의 비웃음 */}
+                <div className="taunt-box">
+                  <p className="taunt-text">
+                    💭 "{scenario.suspects.find(s => s.is_culprit)?.name}: 
+                    {!selectedModal.data.isCorrectCulprit && ' 저를 의심하다니... 증거가 부족한 것 같은데요?'}
+                    {selectedModal.data.isCorrectCulprit && !selectedModal.data.isCorrectMotive && ' 동기를 잘못 짚으셨군요. 다시 생각해보세요.'}"
+                  </p>
+                </div>
+
                 {!selectedModal.data.isCorrectCulprit && (
                   <p className="hint">💡 힌트: 물리적 증거들을 다시 확인해보세요.</p>
                 )}
@@ -340,9 +397,15 @@ export default function UI() {
                   <p className="hint">💡 힌트: 용의자들의 배경을 다시 살펴보세요.</p>
                 )}
                 <div className="stats-box">
-                  수집한 증거: {selectedModal.data.collectedCount}/{selectedModal.data.totalCount}개
+                  <div className="stat-item">
+                    <span className="stat-icon">🔍</span>
+                    <span>수집한 증거: {selectedModal.data.collectedCount}/{selectedModal.data.totalCount}개</span>
+                  </div>
                   {selectedModal.data.collectedCount < selectedModal.data.totalCount && (
-                    <p>아직 발견하지 못한 증거가 있습니다!</p>
+                    <div className="stat-item warning">
+                      <span className="stat-icon">⚠️</span>
+                      <span>아직 발견하지 못한 증거가 있습니다!</span>
+                    </div>
                   )}
                 </div>
               </div>
