@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Box, Cylinder, Sphere, Text } from '@react-three/drei'
+import { Box, Cylinder, Sphere, Html } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import useGameStore from '../store/gameStore'
 
@@ -260,19 +260,32 @@ function SuspectCharacter({ suspect, position, onClick }) {
         </>
       )}
       
-      {/* 호버 시 이름 표시 */}
+      {/* 호버 시 이름 표시 - 2D HTML UI */}
       {hovered && (
-        <Text
+        <Html
           position={[0, 2.2, 0]}
-          fontSize={0.3}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-          outlineWidth={0.03}
-          outlineColor="#000000"
+          center
+          distanceFactor={8}
+          style={{
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
         >
-          {suspect.name}
-        </Text>
+          <div style={{
+            background: 'rgba(0, 0, 0, 0.85)',
+            color: '#ffffff',
+            padding: '8px 16px',
+            borderRadius: '6px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            whiteSpace: 'nowrap',
+            border: '2px solid #ff6600',
+            boxShadow: '0 4px 12px rgba(255, 102, 0, 0.4)',
+            fontFamily: 'sans-serif'
+          }}>
+            {suspect.name}
+          </div>
+        </Html>
       )}
     </group>
   )

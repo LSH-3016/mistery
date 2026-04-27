@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
+import * as THREE from 'three'
 import Scene from './components/Scene'
 import UI from './components/UI'
 import useGameStore from './store/gameStore'
@@ -28,23 +29,33 @@ function App() {
   return (
     <div className="app-container">
       <Canvas
-        camera={{ position: [0, 1.6, 5], fov: 75 }}
+        camera={{ 
+          position: [3, 2.5, 6], 
+          fov: 65,
+          near: 0.1,
+          far: 100
+        }}
         shadows
         gl={{ 
           antialias: true,
           alpha: false,
-          powerPreference: "high-performance"
+          powerPreference: "high-performance",
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.2
         }}
       >
         <Scene />
         <OrbitControls
           enablePan={false}
-          enableZoom={false}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 2}
-          target={[0, 1, -3]}
+          enableZoom={true}
+          minDistance={4}
+          maxDistance={10}
+          minPolarAngle={Math.PI / 6}
+          maxPolarAngle={Math.PI / 2.2}
+          target={[0, 1, -2]}
           enableDamping
-          dampingFactor={0.05}
+          dampingFactor={0.08}
+          rotateSpeed={0.5}
         />
       </Canvas>
       <UI />

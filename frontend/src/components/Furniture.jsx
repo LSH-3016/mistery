@@ -1,3 +1,4 @@
+import { RoundedBox } from '@react-three/drei'
 import useGameStore from '../store/gameStore'
 
 export default function Furniture() {
@@ -25,44 +26,38 @@ export default function Furniture() {
 function GalleryFurniture() {
   return (
     <group>
-      {/* 관장 책상 */}
-      <mesh position={[0, 0.8, -5]} castShadow receiveShadow>
-        <boxGeometry args={[2.5, 0.08, 1.2]} />
+      {/* 관장 책상 - 모따기 적용 */}
+      <RoundedBox args={[2.5, 0.08, 1.2]} position={[0, 0.8, -5]} radius={0.01} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#d4a574" roughness={0.6} metalness={0.4} />
-      </mesh>
+      </RoundedBox>
       
-      {/* 책상 다리 */}
+      {/* 책상 다리 - 모따기 적용 */}
       {[[-1.1, 0.4, -5.5], [1.1, 0.4, -5.5], [-1.1, 0.4, -4.5], [1.1, 0.4, -4.5]].map((pos, i) => (
-        <mesh key={i} position={pos} castShadow>
-          <boxGeometry args={[0.08, 0.8, 0.08]} />
+        <RoundedBox key={i} args={[0.08, 0.8, 0.08]} position={pos} radius={0.005} smoothness={4} castShadow>
           <meshStandardMaterial color="#a67c52" />
-        </mesh>
+        </RoundedBox>
       ))}
 
-      {/* 의자 */}
-      <mesh position={[0, 0.5, -3.5]} castShadow>
-        <boxGeometry args={[0.6, 0.1, 0.6]} />
+      {/* 의자 - 모따기 적용 */}
+      <RoundedBox args={[0.6, 0.1, 0.6]} position={[0, 0.5, -3.5]} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#8b6f47" />
-      </mesh>
-      <mesh position={[0, 0.9, -3.8]} castShadow>
-        <boxGeometry args={[0.6, 0.8, 0.1]} />
+      </RoundedBox>
+      <RoundedBox args={[0.6, 0.8, 0.1]} position={[0, 0.9, -3.8]} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#8b6f47" />
-      </mesh>
+      </RoundedBox>
 
-      {/* 그림 액자들 (벽에 걸린) */}
-      <mesh position={[-5, 2, -7.4]} castShadow>
-        <boxGeometry args={[1.5, 2, 0.05]} />
+      {/* 그림 액자들 (벽에 걸린) - 모따기 적용 */}
+      <RoundedBox args={[1.5, 2, 0.05]} position={[-5, 2, -7.4]} radius={0.008} smoothness={4} castShadow>
         <meshStandardMaterial color="#f5e6d3" />
-      </mesh>
+      </RoundedBox>
       <mesh position={[-5, 2, -7.35]}>
         <planeGeometry args={[1.3, 1.8]} />
         <meshStandardMaterial color="#8b7355" />
       </mesh>
 
-      <mesh position={[5, 2.5, -7.4]} castShadow>
-        <boxGeometry args={[1.2, 1.5, 0.05]} />
+      <RoundedBox args={[1.2, 1.5, 0.05]} position={[5, 2.5, -7.4]} radius={0.008} smoothness={4} castShadow>
         <meshStandardMaterial color="#f5e6d3" />
-      </mesh>
+      </RoundedBox>
       <mesh position={[5, 2.5, -7.35]}>
         <planeGeometry args={[1, 1.3]} />
         <meshStandardMaterial color="#d4a574" />
@@ -73,10 +68,9 @@ function GalleryFurniture() {
         <cylinderGeometry args={[0.3, 0.3, 1.2, 8]} />
         <meshStandardMaterial color="#f5e6d3" />
       </mesh>
-      <mesh position={[-3, 1.25, -3]} castShadow>
-        <boxGeometry args={[0.4, 0.05, 0.4]} />
+      <RoundedBox args={[0.4, 0.05, 0.4]} position={[-3, 1.25, -3]} radius={0.005} smoothness={4} castShadow>
         <meshStandardMaterial color="#d4a574" />
-      </mesh>
+      </RoundedBox>
 
       {/* 찻잔 (증거물) */}
       <mesh position={[-0.3, 0.87, -5]} castShadow>
@@ -177,35 +171,30 @@ function LabFurniture() {
 function OfficeFurniture() {
   return (
     <group>
-      {/* 고급 책상 */}
-      <mesh position={[0, 0.85, -5]} castShadow receiveShadow>
-        <boxGeometry args={[3.5, 0.1, 1.8]} />
+      {/* 고급 책상 - 모따기 적용 */}
+      <RoundedBox args={[3.5, 0.1, 1.8]} position={[0, 0.85, -5]} radius={0.01} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#2a2a35" roughness={0.2} metalness={0.8} />
-      </mesh>
+      </RoundedBox>
       
-      {/* 책상 다리 (현대적) */}
+      {/* 책상 다리 (현대적) - 모따기 적용 */}
       {[[-1.6, 0.42, -5.8], [1.6, 0.42, -5.8], [-1.6, 0.42, -4.2], [1.6, 0.42, -4.2]].map((pos, i) => (
-        <mesh key={i} position={pos} castShadow>
-          <boxGeometry args={[0.12, 0.85, 0.12]} />
+        <RoundedBox key={i} args={[0.12, 0.85, 0.12]} position={pos} radius={0.008} smoothness={4} castShadow>
           <meshStandardMaterial color="#1a1a25" metalness={0.9} />
-        </mesh>
+        </RoundedBox>
       ))}
 
-      {/* 고급 의자 */}
-      <mesh position={[0, 0.6, -3.3]} castShadow>
-        <boxGeometry args={[0.7, 0.12, 0.7]} />
+      {/* 고급 의자 - 모따기 적용 */}
+      <RoundedBox args={[0.7, 0.12, 0.7]} position={[0, 0.6, -3.3]} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a1a" />
-      </mesh>
-      <mesh position={[0, 1.1, -3.65]} castShadow>
-        <boxGeometry args={[0.7, 1, 0.12]} />
+      </RoundedBox>
+      <RoundedBox args={[0.7, 1, 0.12]} position={[0, 1.1, -3.65]} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a1a" />
-      </mesh>
+      </RoundedBox>
 
-      {/* 책장 (현대적) */}
-      <mesh position={[-5.2, 1.5, -7]} castShadow>
-        <boxGeometry args={[2.5, 3, 0.4]} />
+      {/* 책장 (현대적) - 모따기 적용 */}
+      <RoundedBox args={[2.5, 3, 0.4]} position={[-5.2, 1.5, -7]} radius={0.01} smoothness={4} castShadow>
         <meshStandardMaterial color="#2a2a35" roughness={0.3} metalness={0.7} />
-      </mesh>
+      </RoundedBox>
 
       {/* 트로피 (증거물) */}
       <group position={[1, 0.05, -4.5]} rotation={[0, 0, Math.PI / 6]} castShadow>
@@ -219,11 +208,10 @@ function OfficeFurniture() {
         </mesh>
       </group>
 
-      {/* 노트북 */}
-      <mesh position={[-0.5, 0.91, -5]} rotation={[-Math.PI / 6, 0, 0]} castShadow>
-        <boxGeometry args={[0.35, 0.02, 0.45]} />
+      {/* 노트북 - 모따기 적용 */}
+      <RoundedBox args={[0.35, 0.02, 0.45]} position={[-0.5, 0.91, -5]} rotation={[-Math.PI / 6, 0, 0]} radius={0.005} smoothness={4} castShadow>
         <meshStandardMaterial color="#1a1a1a" metalness={0.8} />
-      </mesh>
+      </RoundedBox>
 
       {/* 서류 */}
       <mesh position={[0.6, 0.91, -4.7]} rotation={[-Math.PI / 2, 0, 0.2]} castShadow>
@@ -256,10 +244,9 @@ function OfficeFurniture() {
 function DefaultFurniture() {
   return (
     <group>
-      <mesh position={[0, 0.8, -5]} castShadow receiveShadow>
-        <boxGeometry args={[3, 0.1, 1.5]} />
+      <RoundedBox args={[3, 0.1, 1.5]} position={[0, 0.8, -5]} radius={0.01} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color="#8b4513" />
-      </mesh>
+      </RoundedBox>
     </group>
   )
 }
